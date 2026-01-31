@@ -12,6 +12,7 @@ public abstract class Employee {
     private String jobTitle;
     private double basicSalary;
     //constructor
+    
     public Employee(String employeeID, String employeeName, EmployeeStatus status, Department department, LocalDate startDate, EmployeeType type, String jobTitle, double basicSalary) {
         this.employeeID = employeeID;
         EmployeeName = employeeName;
@@ -21,6 +22,17 @@ public abstract class Employee {
         this.type = type;
         this.jobTitle = jobTitle;
         this.basicSalary = basicSalary;
+    }
+    public Employee(String id, LocalDate startDate) {
+        this.employeeID = id;
+        EmployeeName = "none";
+        this.status = null;
+        this.department = null;
+        this.startDate = startDate;
+        this.type = null;
+        this.jobTitle = "none";
+        this.basicSalary = 0;
+
     }
     //getter and setters
     public String getEmployeeID() {
