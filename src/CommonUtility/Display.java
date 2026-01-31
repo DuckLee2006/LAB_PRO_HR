@@ -14,6 +14,7 @@ public final class Display {
         System.out.println("2. Attendance Management");
         System.out.println("3. Salary Management");
         System.out.println("4. Report");
+        System.out.println("0. Exist.");
         System.out.println("-----------------------------------------");
         System.out.println("Choose an option: ");
     }

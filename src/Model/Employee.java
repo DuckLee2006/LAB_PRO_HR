@@ -1,5 +1,6 @@
 package Model;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 
 public abstract class Employee {
@@ -81,7 +82,7 @@ public abstract class Employee {
     public String toString() {
         return "Employee [employeeID=" + employeeID + ", EmployeeName=" + EmployeeName + ", status=" + status
                 + ", department=" + department + ", startDate=" + startDate + ", type=" + type + ", jobTitle="
-                + jobTitle + ", basicSalary=" + basicSalary + "]";
+                + jobTitle + ", basicSalary=" + NumberFormat.getInstance().format(basicSalary) + "]";
     }
     
     public abstract double getOT_Salary();
