@@ -1,6 +1,6 @@
 package Model;
 
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 public abstract class Employee {
@@ -23,17 +23,6 @@ public abstract class Employee {
         this.type = type;
         this.jobTitle = jobTitle;
         this.basicSalary = basicSalary;
-    }
-    public Employee(String id, LocalDate startDate) {
-        this.employeeID = id;
-        EmployeeName = "none";
-        this.status = null;
-        this.department = null;
-        this.startDate = startDate;
-        this.type = null;
-        this.jobTitle = "none";
-        this.basicSalary = 0;
-
     }
     //getter and setters
     public String getEmployeeID() {
@@ -80,9 +69,15 @@ public abstract class Employee {
     }
     @Override
     public String toString() {
-        return "Employee [employeeID=" + employeeID + ", EmployeeName=" + EmployeeName + ", status=" + status
-                + ", department=" + department + ", startDate=" + startDate + ", type=" + type + ", jobTitle="
-                + jobTitle + ", basicSalary=" + NumberFormat.getInstance().format(basicSalary) + "]";
+        DecimalFormat df = new DecimalFormat("#,###");
+
+        return  "Employee ID: "+employeeID+"\n"
+                +"Full Name: "+EmployeeName+"\n"
+                +"Department: "+department+"\n"
+                +"Job Title: "+jobTitle+"\n"
+                +"Type: "+type+"\n"
+                +"Date of Joining: "+startDate+"\n"
+                +"Basic Salary: "+df.format(basicSalary)+"\n";
     }
     
     public abstract double getOT_Salary();

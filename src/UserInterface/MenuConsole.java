@@ -1,7 +1,6 @@
 package UserInterface;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -10,20 +9,11 @@ import Manager.AttendanceManager;
 import Manager.EmployeeManager;
 import Manager.Report;
 import Manager.SalaryManager;
-import Model.AttendanceRecord;
-import Model.Employee;
-import Model.SalaryRecord;
 
 public class MenuConsole {
     private EmployeeManager employeeManager;
-    private Map<String , Employee> employeeMap;
-
     private AttendanceManager attendanceManager;
-    private Map<String, List<AttendanceRecord>> attenMap;
-
     private SalaryManager salaryManager;
-    private Map<String, List<SalaryRecord>> salaryMap;
-
     private Map<Integer, Runnable> menu;
     private Report report;
     private Scanner sc;
@@ -33,26 +23,43 @@ public class MenuConsole {
     private EmployeeMenu employeeMenu;
     public MenuConsole() {
         //map quản lý
-        this.employeeMap = new HashMap<>();
-        this.attenMap = new HashMap<>();
-        this.salaryMap = new HashMap<>();
         this.sc = new Scanner(System.in);
         //đối tượng quản lý
-        this.employeeManager = new EmployeeManager(employeeMap);
-        this.attendanceManager = new AttendanceManager(attenMap, employeeManager);
-        this.salaryManager = new SalaryManager(salaryMap, attendanceManager);
+        this.employeeManager = new EmployeeManager();
+        this.attendanceManager = new AttendanceManager(employeeManager);
+        this.salaryManager = new SalaryManager(attendanceManager);
         this.report = new Report(employeeManager, attendanceManager, salaryManager);
         //menu
         employeeMenu = new EmployeeMenu(employeeManager, sc);
         this.menu = new HashMap<>();
-        menu.put(1,() -> employeeMenu.add(sc));
+        menu.put(1,() -> employeeMenu.run());
 
 
 
     }
 
     public void run(){
-        Display.showMainMenu();
+       
+        while (true) {
+             Display.showMainMenu();
+            int Choose;
+            try {
+                Choose = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid Input!");
+                continue;
+            }
+            if (Choose == 0) {
+            System.out.println("END!");
+            break; 
+        }
+            Runnable r = menu.get(Choose);
+            if (r ==null) {
+                System.out.println("Invalid input");
+            }else{
+                r.run();
+            }
+        }
     }
 
    

@@ -1,6 +1,7 @@
 package Manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import Model.Employee;
@@ -9,8 +10,8 @@ public class EmployeeManager {
     Map<String, Employee> comp;
 
     //constructor
-    public EmployeeManager(Map<String, Employee> comp) {
-        this.comp = comp;
+    public EmployeeManager() {
+        this.comp = new HashMap<>();;
     }
     //getter and setter
 
@@ -20,6 +21,9 @@ public class EmployeeManager {
 
     public void setComp(Map<String, Employee> comp) {
         this.comp = comp;
+    }
+    public boolean deleteEmployee(String ID){
+        return comp.remove(ID)!=null;
     }
     //cần truyền 1 employee tham chiếu vào để thêm
     public boolean addEmployee(Employee e){

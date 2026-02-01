@@ -1,11 +1,14 @@
 package UserInterface;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import CommonUtility.Display;
 import CommonUtility.IdGenerator;
 import CommonUtility.InputChecker;
 import Manager.EmployeeManager;
@@ -19,16 +22,45 @@ import Model.PartTimeEmployee;
 public class EmployeeMenu {
     private EmployeeManager employeeManager;
     private Map<Integer, Runnable> menu;
+    private Scanner sc;
     //constructor
     public EmployeeMenu(EmployeeManager employeeManager, Scanner scanner) {
         this.employeeManager = employeeManager;
         this.menu = new HashMap<>();
-        menu.put(1,() -> add(scanner));
+        this.sc = scanner;
+        menu.put(1,() -> add());
+        menu.put(2, () -> update());
+        menu.put(3, () -> delete());
+        menu.put(4, () -> viewAll());
+
 
     }
+    public void run() {
+        while (true) {
+            Display.showEmployeeMenu();
+            
+            int choose;
+            try {
+                choose = Integer.parseInt(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input!");
+                continue;
+            }
 
+            if (choose == 0) {
+                break; 
+            }
 
-    public void add(Scanner sc){
+            Runnable r = menu.get(choose);
+            if (r == null) {
+                System.out.println("Invalid input (1-4 only).");
+            } else {
+                r.run();
+            }
+        }
+    }
+
+    public void add(){
         System.out.println("Full Name: ");
         String name;
         while (true) {
@@ -126,37 +158,20 @@ public class EmployeeMenu {
                 throw new IllegalArgumentException("Invalid employee type");
             }
         System.out.println("-----ADD EMPLOYEE-----");
-        System.out.println("Eployee ID: "+id);
-        System.out.println("Full Name: "+name);
-        System.out.println("Department: "+department);
-        System.out.println("Job Title: "+job);
-        System.out.println("Type: "+type);
-        System.out.println("Date of Joining: "+starDate);
-        System.out.println("Basic Salary: "+basicSalary);
+        System.out.println(emp.toString());
         System.out.println("[1] Save     [2] Cancel");
-        int confirm;
-        while (true) {
-            try {
-                confirm = Integer.parseInt(sc.nextLine());
-                if (confirm == 1 || confirm == 2) break;
-                System.out.println("1 or 2 only pls!");
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input");
-            }
-        }
+        int confirm =InputChecker.confirm(sc);
 
         if (confirm==1){
             employeeManager.addEmployee(emp);
             System.out.println("Employee added successfully.");
-        }else if (confirm==2) {
-            return;
         }else {
-            System.out.println("invalid choice.");
+            return;
         }
 
     }
 
-    public void update(Scanner sc){
+    public void update(){
         System.out.print("Enter Employee ID to update: ");
         String input;
         try {
@@ -171,14 +186,8 @@ public class EmployeeMenu {
             return;
         }else{
             System.out.println("");
-            
-        System.out.println("Eployee ID: "+oldEmp.getEmployeeID());
-        System.out.println("Full Name: "+oldEmp.getEmployeeName());
-        System.out.println("Department: "+oldEmp.getDepartment());
-        System.out.println("Job Title: "+oldEmp.getJobTitle());
-        System.out.println("Type: "+oldEmp.getType());
-        System.out.println("Date of Joining: "+oldEmp.getStartDate());
-        System.out.println("Basic Salary: "+oldEmp.getBasicSalary());
+            System.out.println(oldEmp.toString());
+        
         }
         
         String id = oldEmp.getEmployeeID();
@@ -293,38 +302,55 @@ public class EmployeeMenu {
             }
         
         System.out.println("-----Update EMPLOYEE-----");
-        System.out.println("New Employee ID: "+id);
-        System.out.println("New Full Name: "+name);
-        System.out.println("New Department: "+department);
-        System.out.println("New Job Title: "+job);
-        System.out.println("New Type: "+type);
-        System.out.println("New Date of Joining: "+starDate);
-        System.out.println("New Basic Salary: "+basicSalary);
+        System.out.println(newEmp.toString());
         System.out.println("[1] Update     [2] Cancel");    
 
-        int confirm;
-        while (true) {
-            try {
-                confirm = Integer.parseInt(sc.nextLine());
-                if (confirm == 1 || confirm == 2) break;
-                System.out.println("1 or 2 only pls!");
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input");
-            }
-        }
-
+        int confirm =InputChecker.confirm(sc);
         if (confirm==1){
             employeeManager.updateEmployee(newEmp);
             System.out.println("Employee update successfully.");
-        }else if (confirm==2) {
-            return;
-        }else {
-            System.out.println("invalid choice.");
-        }
+        }else return;
 
     }
 
-    
+    public void delete(){
+        System.out.println("Enter id to delete.");
+        String id = sc.nextLine().trim();
+        if (employeeManager.findEmployeeByID(id)==null){
+            System.out.println("ID does not exist.");
+            return;
+        }
+        System.out.println("The employee with ID: "+id+" will be deleted.");
+        System.out.println("[1]YES    [2]NO");
 
+        int confirm =InputChecker.confirm(sc);
+
+        if (confirm==1){
+            employeeManager.deleteEmployee(id);
+            System.out.println("Employee was deleted.");
+        }else if (confirm==2) {
+            return;
+        }
+
+    }
+    
+    public void viewAll(){
+        DecimalFormat df = new DecimalFormat("#,###");
+        List<Employee> comp = employeeManager.getAllEmployee();
+        if (comp.isEmpty()) {
+            System.out.println("Don't have any employee here.");
+            return;
+        }
+        System.out.println("-----------------------------------------Employee List--------------------------------------------");
+        System.out.println("    ID     |               NAME               | DEPARTMENT |     JOB TITLE     |      SALARY      |");
+        // System.out.printf("%-8s|%-34s|%-12s|%-19s|%-18s");
+        //8/ 34 /12/19/18
+        for (Employee employee : comp) {
+            System.out.printf("%-8s|%-34s|%-12s|%-19s|%-18s|\n",employee.getEmployeeID(),employee.getEmployeeName(),employee.getDepartment(),employee.getJobTitle(),df.format(employee.getBasicSalary()));
+        }
+        System.out.println("--------------------------------------------------------------------------------------------------");
+        System.out.println("Press Enter to return");
+        sc.nextLine();
+    }
 
 }

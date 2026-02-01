@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Scanner;
 
 import Model.AttendanceRecord;
 import Model.AttendanceStatus;
@@ -27,6 +28,7 @@ public final class InputChecker {
     }
     //name
     public static boolean nameCheck(String name){
+        name.trim();
         String ex = "^[a-zA-Z\\s]+$";
         return name!= null && name.matches(ex);
     }
@@ -119,5 +121,22 @@ public final class InputChecker {
             default:
                 throw new IllegalArgumentException("INVALID DEPARTMENT");
         }
+    }
+
+    public static int confirm(Scanner sc){
+        int confirm;
+        while (true) {
+            try {
+                confirm = Integer.parseInt(sc.nextLine());
+                if (confirm == 1 || confirm == 2) break;
+                System.out.println("1 or 2 only pls!");
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input");
+            }
+        }
+
+        if (confirm==1){
+            return 1;
+        }else return 2;
     }
 }

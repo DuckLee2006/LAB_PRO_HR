@@ -1,6 +1,7 @@
 package Manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +16,9 @@ public class SalaryManager {
     //----
     //
     //constructor
-    public SalaryManager(Map<String, List<SalaryRecord>> salaryManager, AttendanceManager attendanceManager) {
+    public SalaryManager( AttendanceManager attendanceManager) {
         this.attendanceManager = attendanceManager;
-        this.salaryManager = salaryManager;
+        this.salaryManager = new HashMap<>();
     }
     //tính lương
     public boolean createMonthSalaryRecord(Employee emp, int month, int year){

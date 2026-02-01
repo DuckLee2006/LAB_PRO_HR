@@ -3,6 +3,7 @@ package Manager;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,8 @@ public class AttendanceManager {
     private Map<String, List<AttendanceRecord>> attendanceManager;
     private EmployeeManager employeeManager;
     //constructor
-    public AttendanceManager(Map<String, List<AttendanceRecord>> attendanceManager,
-                             EmployeeManager employeeManager) {
-        this.attendanceManager = attendanceManager;
+    public AttendanceManager(EmployeeManager employeeManager) {
+        this.attendanceManager = new HashMap<>();
         this.employeeManager = employeeManager;
     }
     //getter and setters
