@@ -122,7 +122,7 @@ public final class InputChecker {
                 throw new IllegalArgumentException("INVALID DEPARTMENT");
         }
     }
-
+    //confirm
     public static int confirm(Scanner sc){
         int confirm;
         while (true) {

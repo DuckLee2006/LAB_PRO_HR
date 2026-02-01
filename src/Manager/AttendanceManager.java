@@ -108,19 +108,6 @@ public class AttendanceManager {
         return absentDays;
     }
 
-    //low attendance employees
-    // public List<String> isLowAttendance(int month, int year){
-    //     List<String> lowId = new ArrayList<>();
-    //     for (String id : attendanceManager.keySet()) {
-    //         if(getAbsentDay(id, month, year)>=3){
-    //             lowId.add(id);
-    //         }
-    //     }
-
-    //     return lowId;
-
-    // }
-
     public List<Employee> isLowAttendance(int month, int year){
         List<Employee> lowEmp = new ArrayList<>();
         for (Employee emp : employeeManager.getAllEmployee()) {

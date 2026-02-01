@@ -35,6 +35,11 @@ public class EmployeeMenu {
 
 
     }
+    //setter 
+    public void setEmployeeManager(EmployeeManager employeeManager) {
+        this.employeeManager = employeeManager;
+    }
+    //run
     public void run() {
         while (true) {
             Display.showEmployeeMenu();
@@ -59,6 +64,8 @@ public class EmployeeMenu {
             }
         }
     }
+
+    
 
     public void add(){
         System.out.println("Full Name: ");
@@ -138,7 +145,7 @@ public class EmployeeMenu {
         double basicSalary;
         while (true) {
             try {
-                System.out.println("basicsalary: ");
+                System.out.println("basic Ssalary: ");
                 basicSalary= Double.parseDouble(sc.nextLine());
                 break;
             } catch (Exception e) {
