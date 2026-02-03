@@ -15,9 +15,14 @@ public class AttendanceRecord {
         this.status = status;
     }
     //getter and setters
+    
     public String getEmployeeID() {
         return employeeID;
     }
+    public void setOT(int oT) {
+        OT = oT;
+    }
+
     public LocalDate getDate() {
         return date;
     }

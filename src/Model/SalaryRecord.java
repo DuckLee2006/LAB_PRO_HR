@@ -49,8 +49,10 @@ public class SalaryRecord {
     @Override
     public String toString() {
         DecimalFormat df = new DecimalFormat("#,###");
-        return "SalaryRecord [employeeID=" + employeeID + ", month=" + month + ", year=" + year + ", workingDay="
-                + workingDay + ", OT=" + OT + ", absentDay=" + absentDay + ", TotalSalary=" + df.format(TotalSalary) + "]";
+        return "Total Working Days: "+ workingDay +"\n"
+                +"Overtime Hourse: " +OT+"\n"
+                +"Absent Days: "+absentDay + "\n"
+                +"Total Salary: "+df.format(TotalSalary) +"\n";
     }
 
     

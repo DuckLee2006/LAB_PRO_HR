@@ -21,6 +21,7 @@ public class MenuConsole {
     //menucon
     private EmployeeMenu employeeMenu;
     private AttendanceManagerMenu attendanceManagerMenu;
+    private SalaryMenu salaryMenu;
 
     //constructor
     public MenuConsole() {
@@ -34,28 +35,31 @@ public class MenuConsole {
         //menu
         employeeMenu = new EmployeeMenu(employeeManager, sc);
         attendanceManagerMenu = new AttendanceManagerMenu(attendanceManager, employeeManager, sc);
+        salaryMenu = new SalaryMenu(employeeManager,salaryManager, sc);
         this.menu = new HashMap<>();
         menu.put(1,() -> employeeMenu.run());
         menu.put(2,() -> attendanceManagerMenu.run());
+        menu.put(3,() -> salaryMenu.run());
     }
-    //construcor 2
-    public MenuConsole(String test) {
-        this.employeeManager = null;
-        this.attendanceManager = null;
-        this.salaryManager = null;
+    //construcor 2 cho test
+    public MenuConsole(EmployeeManager employeeManager, AttendanceManager attendanceManager, SalaryManager salaryManager) {
+        this.employeeManager = employeeManager;
+        this.attendanceManager = attendanceManager;
+        this.salaryManager = salaryManager;
         this.report = null;
         this.sc = new Scanner(System.in);
         this.employeeMenu = new EmployeeMenu(employeeManager, sc);
         this.attendanceManagerMenu = new AttendanceManagerMenu(attendanceManager, employeeManager, sc);
+        this.salaryMenu = new SalaryMenu(employeeManager,salaryManager, sc);
         this.menu = new HashMap<>();
         menu.put(1,() -> employeeMenu.run());
         menu.put(2,() -> attendanceManagerMenu.run());
+        menu.put(3,() -> salaryMenu.run());
     }
     //setter
     
     public void setEmployeeManager(EmployeeManager employeeManager) {
         this.employeeManager = employeeManager;
-
         if (employeeMenu != null) {
             employeeMenu.setEmployeeManager(employeeManager);
         }

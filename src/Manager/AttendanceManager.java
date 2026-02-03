@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import Model.AttendanceRecord;
+import Model.AttendanceStatus;
 import Model.Employee;
 
 public class AttendanceManager {
@@ -52,7 +53,9 @@ public class AttendanceManager {
                 return false;
             }
         }
-
+        if(record.getStatus()==AttendanceStatus.ABSENT){
+            record.setOT(0);
+        }
         // 4. Add record
         empRecords.add(record);
         return true;

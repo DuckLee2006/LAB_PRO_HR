@@ -33,6 +33,9 @@ public class AttendanceManagerMenu {
     public void setEmployeeManager(EmployeeManager employeeManager) {
         this.employeeManager = employeeManager;
     }
+    public void setAttendanceManager(AttendanceManager attendanceManager){
+        this.attendanceManager = attendanceManager;
+    }
     //run
     public void run(){
         while (true) {
@@ -60,7 +63,10 @@ public class AttendanceManagerMenu {
     }
     //create new
     public void add(){
-        
+        if(attendanceManager==null){
+            System.out.println("Attendance manager is null;");
+            return;
+        }
         String empID;
         while (true) {
             System.out.println("Enter employeeID.");
@@ -132,6 +138,10 @@ public class AttendanceManagerMenu {
     }
 
     public void viewAll(){
+        if (this.attendanceManager == null) {
+        System.out.println("Attendance Manager dose not exist.");
+        return;
+    }
         DateTimeFormatter dt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         System.out.println("Enter employee ID: ");
         String id = sc.nextLine();
@@ -155,6 +165,7 @@ public class AttendanceManagerMenu {
         List<AttendanceRecord> list = attendanceManager.getAttendanceByMonth(id, month, year);
         if (list==null) {
             System.out.println("Do not have any attendance record.");
+            return;
         }
         System.out.println("Employee ID: "+id);
         System.out.println("--------------------------------------");
