@@ -28,6 +28,7 @@ public class AttendanceManagerMenu {
         this.sc = sc;
         menu.put(1, () -> add());
         menu.put(2,() -> viewAll());
+        menu.put(3,() -> Update());
     }
     //setter
     public void setEmployeeManager(EmployeeManager employeeManager) {
@@ -77,45 +78,13 @@ public class AttendanceManagerMenu {
             }
             break;
         }
-        LocalDate date;
-        while (true) {
-
-                System.out.println("Date of record(dd/mm/yyyy): ");
-                String dateStr = sc.nextLine();
-            try{
-                if (!InputChecker.isValidDate(dateStr)) {
-                    System.out.println("Invalid date, enter again pls.");
-                    continue;
-                }
-                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                    date = LocalDate.parse(dateStr,formatter);
-                break;
-            }catch(Exception e){
-                System.out.println("Anything wrong here :<<");
-            }
-        }
-        AttendanceStatus status;
-        while (true) {
-            System.out.println("Status: ");
-            try {
-                status = InputChecker.attendanceStatusCheck(sc.nextLine());
-                break;
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid input. Just PRESENT OR ABSENT PLS!");
-            }catch(Exception e){
-                System.out.println("Error :<<");
-            }
-        }
-        int ot;
-        while (true) {
-            System.out.println("Over Time: ");
-            try {
-                ot = Integer.parseInt(sc.nextLine());
-                break;
-            } catch (Exception e) {
-                System.out.println("Enter real number only!");
-            }
-        }
+        System.out.println("Date of record(dd/mm/yyyy): ");
+        LocalDate date = InputChecker.inputDate(sc);
+        System.out.println("Status: ");
+        AttendanceStatus status = InputChecker.inputAttendanceStatus(sc);
+        System.out.println("Over Time: ");
+        int ot = InputChecker.inputOT(sc);
+      
 
         AttendanceRecord attendanceRecord = new AttendanceRecord(empID, date, ot, status);
         System.out.println("[1] Save     [2] Cancel");
@@ -177,6 +146,58 @@ public class AttendanceManagerMenu {
         System.out.println("--------------------------------------");
         System.out.println("Press ENTER to return");
         sc.nextLine();
+
+    }
+
+    public void Update(){
+        System.out.println("Employee id: ");
+        String id = sc.nextLine();
+        if(employeeManager.findEmployeeByID(id)==null){
+            System.out.println("ID does not exist.");
+            return;
+        }
+        System.out.println("Date: ");
+        LocalDate date = InputChecker.inputDate(sc);
+
+        AttendanceRecord oldRecord = attendanceManager.find(id, date);
+        if(oldRecord==null){
+            System.out.println("Record does not exist.");
+            return;
+        }
+        AttendanceStatus newStatus;
+        int ot;
+      
+        while (true) {
+            try {
+                System.out.println("New Status: ");
+                newStatus = InputChecker.inputAttendanceStatus(sc);
+                System.out.println("OT: ");
+                ot = InputChecker.inputOT(sc);
+                break;
+            } catch (NumberFormatException ne ) {
+                System.out.println("Invalid OT input.");
+            }catch(IllegalArgumentException ie){
+                System.out.println("Invalid Status.");
+            }catch(Exception e){
+                System.out.println("Invalid input.");
+            }
+        }
+
+
+         System.out.println("-----Update Attendance-----");
+        System.out.println("New Status: "+ newStatus+"| new OT: "+ot);
+        System.out.println("[1] Update     [2] Cancel");    
+
+        int confirm =InputChecker.confirm(sc);
+        if (confirm==1){
+            oldRecord.setStatus(newStatus);
+            oldRecord.setOT(ot);
+
+            System.out.println("Attendance update successfully.");
+        }else return;
+
+       
+
 
     }
     

@@ -22,6 +22,10 @@ public class AttendanceRecord {
     public void setOT(int oT) {
         OT = oT;
     }
+    
+    public void setStatus(AttendanceStatus status) {
+        this.status = status;
+    }
 
     public LocalDate getDate() {
         return date;

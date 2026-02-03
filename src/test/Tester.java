@@ -51,7 +51,7 @@ public class Tester {
         }
 
         for (Employee employee : manager.getAllEmployee()) {
-            System.out.println("--------");
+            System.out.println("----------------------");
             System.out.println(employee);
         }
         return manager;
@@ -65,8 +65,9 @@ public class Tester {
         System.out.println("\n--- AUTO GENERATING 10 ATTENDANCE RECORDS FOR EACh EMP---");
         System.out.printf("|%-12s|%-13s|%-10s|%-5s|\n", "Emp ID", "Date", "Status", "OT");
         System.out.println("---------------------------------------------------------");
-
+        int count = 0;
         for (Employee emp : listEmp) {
+            count++;
             // Lấy ID từ nhân viên đã tạo
             for (int i = 0; i < 10; i++) {
                 
@@ -74,7 +75,7 @@ public class Tester {
             LocalDate date = LocalDate.now().plusDays(i); // Lấy ngày hiện tại +i
             int ot = (i%2==0) ? 2 : 1; 
             AttendanceStatus status;
-            if (i%2==0) {
+            if (count%3==0) {
                 status = AttendanceStatus.ABSENT;
             }else{
                 status = AttendanceStatus.PRESENT; 

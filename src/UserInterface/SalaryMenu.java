@@ -7,6 +7,7 @@ import java.util.Scanner;
 import CommonUtility.Display;
 import Manager.EmployeeManager;
 import Manager.SalaryManager;
+import Model.SalaryRecord;
 
 public class SalaryMenu {
     private EmployeeManager employeeManager;
@@ -21,6 +22,7 @@ public class SalaryMenu {
         this.sc = sc;
         this.menu = new HashMap<>();
         menu.put(1,() -> calculateSalary());
+        menu.put(2,() -> viewSalary());
         
     }
     //run
@@ -89,6 +91,41 @@ public class SalaryMenu {
         System.out.println(salaryManager.getSalaryByMonth(id, month, year).toString());
     }
 
+    public void viewSalary(){
+        System.out.println("Enter ID to find: ");
+        String id;
+        while (true) {
+          id = sc.nextLine();
+          if(employeeManager.findEmployeeByID(id)==null){
+            System.out.println("ID does not exist!");
+            continue;
+          }
+          break;
+        }
+        int month, year;
+        while (true) {
+            try {
+                System.out.println("Month: ");
+                month = Integer.parseInt(sc.nextLine());
+                if (month<1||month>12) {
+                    System.out.println("MONTH 1-12 PLS");
+                    continue;
+                }
+                System.out.println("Year: ");
+                year = Integer.parseInt(sc.nextLine());
+                break;
+            } catch (Exception e) {
+                System.out.println("Invalid Input");
+            }
+        }
+        SalaryRecord salaryRecord = salaryManager.getSalaryByMonth(id, month, year);
+        if (salaryRecord==null) {
+            System.out.println("Salary Record does not exist.");
+            return;
+        }
+        System.out.println("----------------------------------------");
+        System.out.println(salaryManager.getSalaryByMonth(id, month, year).toString());
+    }
 
 
   

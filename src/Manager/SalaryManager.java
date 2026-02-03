@@ -43,6 +43,10 @@ public class SalaryManager {
 
     //lương cao nhất.
     public SalaryRecord getHighestEmployee (int month, int year){
+        if (salaryManager==null) {
+            System.out.println("Salary Manager is null!");
+        }
+        
         SalaryRecord highest = null;
         for (List<SalaryRecord> list : salaryManager.values()) {
             for (SalaryRecord salaryRecord : list) {

@@ -1,5 +1,6 @@
 package Manager;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +60,22 @@ public class AttendanceManager {
         // 4. Add record
         empRecords.add(record);
         return true;
+    }
+    //find
+    public AttendanceRecord find(String id, LocalDate date) {
+        List<AttendanceRecord> attendanceRecords = attendanceManager.get(id);
+        if (attendanceRecords == null) return null;
+
+        try {
+            for (AttendanceRecord record : attendanceRecords) {
+                if (record.getDate().equals(date)) {
+                    return record;
+                }
+            }
+        } catch (DateTimeException e) {
+            return null;
+        }
+        return null;
     }
     //get attendance by month
     public List<AttendanceRecord> getAttendanceByMonth (String ID,int month, int year){
