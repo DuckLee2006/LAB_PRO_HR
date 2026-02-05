@@ -62,12 +62,12 @@ public class MenuConsole {
         menu.put(4,() -> reportMenu.run());
     }
     //setter
-    public void setAttendanceManager(AttendanceManager attendanceManager) {
-        this.attendanceManager = attendanceManager;
-    }
-    public void setSalaryManager(SalaryManager salaryManager) {
-        this.salaryManager = salaryManager;
-    }
+//    public void setAttendanceManager(AttendanceManager attendanceManager) {
+//        this.attendanceManager = attendanceManager;
+//    }
+//    public void setSalaryManager(SalaryManager salaryManager) {
+//        this.salaryManager = salaryManager;
+//    }
     //run
     public void run(){
        

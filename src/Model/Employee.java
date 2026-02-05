@@ -21,7 +21,7 @@ public abstract class Employee {
         this.department = department;
         this.startDate = startDate;
         this.type = type;
-        this.jobTitle = jobTitle;
+        this.jobTitle = jobTitle.toUpperCase();
         this.basicSalary = basicSalary;
     }
     //getter and setters
@@ -81,4 +81,5 @@ public abstract class Employee {
     }
     
     public abstract double getOT_Salary();
+    public abstract String dataString();
 }

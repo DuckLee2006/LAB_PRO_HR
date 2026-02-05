@@ -64,7 +64,7 @@ public class AttendanceManager {
     //find
     public AttendanceRecord find(String id, LocalDate date) {
         List<AttendanceRecord> attendanceRecords = attendanceManager.get(id);
-        if (attendanceRecords == null) return null;
+        // if (attendanceRecords == null) return null;
 
         try {
             for (AttendanceRecord record : attendanceRecords) {
@@ -142,7 +142,7 @@ public class AttendanceManager {
 
 
 
-
+    
 
 
 

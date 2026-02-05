@@ -23,12 +23,12 @@ public class Tester {
     public static void main(String[] args) {
         
         EmployeeManager employeeManager = testEmployee();
+
         AttendanceManager attendanceManager = testAttendance(employeeManager);
         SalaryManager salaryManager = new SalaryManager(attendanceManager);
         MenuConsole menuConsole = new MenuConsole(employeeManager,attendanceManager, salaryManager);
         menuConsole.run();
     }
-
     public static EmployeeManager testEmployee(){
         EmployeeManager manager = new EmployeeManager();
 

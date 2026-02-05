@@ -61,8 +61,6 @@ public class EmployeeMenu {
         }
     }
 
-    
-
     public void add(){
         System.out.println("Full Name: ");
         String name = InputChecker.inputName(sc);
@@ -113,7 +111,6 @@ public class EmployeeMenu {
         }else{
             System.out.println("");
             System.out.println(oldEmp.toString());
-        
         }
         
         String id = oldEmp.getEmployeeID();
@@ -123,7 +120,7 @@ public class EmployeeMenu {
         System.out.println("Full Name: ");
         String name;
         while (true) {
-            name = sc.nextLine();
+            name = InputChecker.inputName(sc);
             if (name.matches(blank)) {
                 name= oldEmp.getEmployeeName();
                 break;
@@ -134,6 +131,7 @@ public class EmployeeMenu {
                 System.out.println("Invalid name, enter again pls!");
             }
         }
+        name = InputChecker.nameTransform(name);
         Department department;
         while (true) {
             System.out.println("Department (HR,IT, ACCOUNTING, SALES, MARKETING): ");

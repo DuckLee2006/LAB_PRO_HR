@@ -42,6 +42,9 @@ public class AttendanceRecord {
                 + "]";
     }
     
+    public String dataString(){
+        return employeeID+","+date+","+OT+","+status;
+    }
 
-    
+    //format: id,date,ot,status
 }

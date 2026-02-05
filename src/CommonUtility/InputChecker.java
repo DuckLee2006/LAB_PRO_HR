@@ -30,7 +30,7 @@ public final class InputChecker {
     //name
     public static boolean nameCheck(String name){
         name.trim();
-        String ex = "^[a-zA-Z\\s]+$";
+        String ex = "^[\\p{L} ]+$";
         return name!= null && name.matches(ex);
     }
     //attendance
