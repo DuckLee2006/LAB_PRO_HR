@@ -29,15 +29,18 @@ public class SalaryManager {
     //tính lương
     public boolean createMonthSalaryRecord(Employee emp, int month, int year){
         if (emp.getStatus()!=EmployeeStatus.ACTIVE) {
-            System.out.println("Employee is not active!");
+            System.out.println("Employee with ID: "+emp.getEmployeeID()+" is not active!");
             return false;
         }
 
         if(getSalaryByMonth(emp.getEmployeeID(), month, year)==null){
-            List<SalaryRecord> salaryRecords =
-                    salaryManager.computeIfAbsent(emp.getEmployeeID(), k -> new ArrayList<>());
+            List<SalaryRecord> salaryRecords = salaryManager.computeIfAbsent(emp.getEmployeeID(), k -> new ArrayList<>());
             int working = attendanceManager.getWorkingDay(emp.getEmployeeID(), month, year);
             int absent = attendanceManager.getAbsentDay(emp.getEmployeeID(), month, year);
+            if (working==0&&absent==0) {
+                System.out.println("ID: "+emp.getEmployeeID()+" have no attendance record for this month. Salary record can't be created.");
+                return false;
+            }
             int ot = attendanceManager.getOTByMonth(emp.getEmployeeID(), month, year);
             SalaryRecord record = new SalaryRecord(emp,month,year,working,ot,absent);
             salaryRecords.add(record);

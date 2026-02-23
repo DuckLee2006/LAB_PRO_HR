@@ -7,6 +7,7 @@ import java.util.Scanner;
 import CommonUtility.Display;
 import Manager.EmployeeManager;
 import Manager.SalaryManager;
+import Model.Employee;
 import Model.SalaryRecord;
 import StorageData.SalaryStorage;
 
@@ -30,21 +31,29 @@ public class SalaryMenu {
     }
     //run
     public void run(){
+        boolean haveChange = false;
         while (true) {
             Display.showSalaryMenu();
             
             int choose;
             try {
                 choose = Integer.parseInt(sc.nextLine());
+                if (choose ==1) {
+                    haveChange = true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input!");
                 continue;
             }
 
             if (choose == 0) {
-                salaryStorage.saveSalariesToFile(salaryManager.getAllSalaries());
-                System.out.println("Data saved. Returning to main menu...");
-                break; 
+                if (haveChange) {
+                    salaryStorage.saveSalariesToFile(salaryManager.getAllSalaries());
+                    System.out.println("data saved. Returning to main menu...");
+                } else {
+                    System.out.println("No changes to save. Returning to main menu...");
+                }
+                break;  
             }
 
             Runnable r = menu.get(choose);
@@ -57,17 +66,8 @@ public class SalaryMenu {
     }
     //tính lương
     public void calculateSalary(){
-        System.out.println("Enter employee ID: ");
-        String id;
-        while (true) {
-          id = sc.nextLine();
-          if(employeeManager.findEmployeeByID(id)==null){
-            System.out.println("ID does not exist!");
-            continue;
-          }
-          break;
-        }
         int month, year;
+       
         while (true) {
             try {
                 System.out.println("Month: ");
@@ -78,22 +78,27 @@ public class SalaryMenu {
                 }
                 System.out.println("Year: ");
                 year = Integer.parseInt(sc.nextLine());
+                if (year < 1000 || year > 9999) {
+                    System.out.println("Invalid Year!");
+                    continue;
+                }
                 break;
             } catch (Exception e) {
                 System.out.println("Invalid Input");
             }
         }
-
-        boolean createMonthSalaryRecord = salaryManager.createMonthSalaryRecord(employeeManager.findEmployeeByID(id), month, year);
-        if(createMonthSalaryRecord==false){
-             System.out.println("Salary Record can't be created.");
-             return;
+         for (Employee employee : employeeManager.getAllEmployee()) {
+            salaryManager.createMonthSalaryRecord(employee, month, year);
         }
-        
-        System.out.println("------------CALCULATE SALARY-------------");
-        System.out.println("Employee ID: "+id);
-        System.out.println("Month / Year: "+ month+"/"+year);
-        System.out.println(salaryManager.getSalaryByMonth(id, month, year).toString());
+
+        for (SalaryRecord salaryRecord : salaryManager.getAllSalaries()) {
+            if (salaryRecord.getMonth() == month && salaryRecord.getYear() == year) {
+                System.out.println("------------CALCULATE SALARY-------------");
+                System.out.println("Employee ID: "+salaryRecord.getEmployeeID());
+                System.out.println("Month / Year: "+ month+"/"+year);
+        System.out.println(salaryManager.getSalaryByMonth(salaryRecord.getEmployeeID(), month, year).toString());
+            }
+        }
     }
 
     public void viewSalary(){

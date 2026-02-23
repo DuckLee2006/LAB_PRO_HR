@@ -40,20 +40,29 @@ public class EmployeeMenu {
     }
     //setter
     public void run() {
+        boolean haveChange = false;
         while (true) {
+            
             Display.showEmployeeMenu();
             
             int choose;
             try {
                 choose = Integer.parseInt(sc.nextLine());
+                if (choose!=0&&choose!=4&&choose!=5) {
+                    haveChange = true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input!");
                 continue;
             }
 
             if (choose == 0) {
-                employeeStorage.saveEmployeesToFile(employeeManager.getAllEmployee());
-                System.out.println("data saved. Returning to main menu...");
+                if (haveChange) {
+                    employeeStorage.saveEmployeesToFile(employeeManager.getAllEmployee());
+                    System.out.println("data saved. Returning to main menu...");
+                } else {
+                    System.out.println("No changes to save. Returning to main menu...");
+                }
                 break; 
             }
 
@@ -80,7 +89,13 @@ public class EmployeeMenu {
         EmployeeStatus status= InputChecker.inputEmployeeStatus(sc);
         System.out.println("basic Salary: ");
         double basicSalary = InputChecker.inputSalary(sc);
-        String id = IdGenerator.generateEmployeeId(type, department);
+        String id;
+        while (true) {
+            id = IdGenerator.generateEmployeeId(type, department);
+            if (employeeManager.findEmployeeByID(id) == null) {
+                break;
+            }
+        }
         Employee emp;
             switch (type) {
                 case FULL_TIME:

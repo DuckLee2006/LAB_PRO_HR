@@ -43,20 +43,27 @@ public class AttendanceManagerMenu {
     }
     //run
     public void run(){
+        boolean haveChange = false;
         while (true) {
             Display.showAttendanceMenu();
-            
             int choose;
             try {
                 choose = Integer.parseInt(sc.nextLine());
+                if (choose != 0&&choose != 2) {
+                    haveChange = true;
+                }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input!");
                 continue;
             }
 
             if (choose == 0) {
-                attendanceStorage.saveAttendanceToFile(attendanceManager.getAllAttendanceRecords());
-                System.out.println("Data saved. Returning to main menu...");
+                if (haveChange) {
+                    attendanceStorage.saveAttendanceToFile(attendanceManager.getAllAttendanceRecords());
+                    System.out.println("Data saved. Returning to main menu...");
+                } else {
+                    System.out.println("No changes to save. Returning to main menu...");
+                }
                 break; 
             }
 

@@ -92,14 +92,11 @@ public class ReportMenu {
                 if (month < 1 || month > 12) {
                     System.out.println("Month must be between 1 and 12.");
                     continue;
-}
+        }
                 break;
             } catch (Exception e) {
                 System.out.println("Invalid Input.");
             }
-        }
-         for (Employee employee : employeeManager.getAllEmployee()) {
-            salaryManager.createMonthSalaryRecord(employee, month, year);
         }
         SalaryRecord highest = salaryManager.getHighestEmployee(month, year);
         if (highest==null||highest.getTotalSalary()==0) {
