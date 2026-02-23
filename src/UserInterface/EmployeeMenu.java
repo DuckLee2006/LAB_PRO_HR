@@ -17,14 +17,17 @@ import Model.EmployeeStatus;
 import Model.EmployeeType;
 import Model.FullTimeEmployee;
 import Model.PartTimeEmployee;
+import StorageData.EmployeeStorage;
 
 public class EmployeeMenu {
     private EmployeeManager employeeManager;
     private Map<Integer, Runnable> menu;
     private Scanner sc;
+    private EmployeeStorage employeeStorage;
     //constructor
-    public EmployeeMenu(EmployeeManager employeeManager, Scanner scanner) {
+    public EmployeeMenu(EmployeeManager employeeManager, Scanner scanner, String employeeFileName) {
         this.employeeManager = employeeManager;
+        this.employeeStorage = new EmployeeStorage(employeeFileName);
         this.menu = new HashMap<>();
         this.sc = scanner;
         menu.put(1,() -> add());
@@ -49,6 +52,8 @@ public class EmployeeMenu {
             }
 
             if (choose == 0) {
+                employeeStorage.saveEmployeesToFile(employeeManager.getAllEmployee());
+                System.out.println("data saved. Returning to main menu...");
                 break; 
             }
 
@@ -209,6 +214,10 @@ public class EmployeeMenu {
                 break;
                 }
                 basicSalary= Double.parseDouble(basicString);
+                if(basicSalary<0){
+                    System.out.println("Salary must be positive.");
+                    continue;
+                }
                 break;
             } catch (Exception e) {
                 System.out.println("enter again, pls!");

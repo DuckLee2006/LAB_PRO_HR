@@ -13,6 +13,7 @@ import Manager.AttendanceManager;
 import Manager.EmployeeManager;
 import Model.AttendanceRecord;
 import Model.AttendanceStatus;
+import StorageData.AttendanceStorage;
 
 public class AttendanceManagerMenu {
 
@@ -20,10 +21,13 @@ public class AttendanceManagerMenu {
     private EmployeeManager employeeManager;
     private Map<Integer, Runnable> menu;
     private Scanner sc;
+    private AttendanceStorage attendanceStorage;
     //constructor
-    public AttendanceManagerMenu(AttendanceManager attendanceManager, EmployeeManager employeeManager,Scanner sc) {
+    public AttendanceManagerMenu(AttendanceManager attendanceManager, EmployeeManager employeeManager,Scanner sc, String attendanceFileName) {
+         this.attendanceStorage = new AttendanceStorage(attendanceFileName);
         this.attendanceManager = attendanceManager;
         this.employeeManager = employeeManager;
+        this.attendanceStorage = new AttendanceStorage(attendanceFileName);
         this.menu = new HashMap<>();
         this.sc = sc;
         menu.put(1, () -> add());
@@ -51,6 +55,8 @@ public class AttendanceManagerMenu {
             }
 
             if (choose == 0) {
+                attendanceStorage.saveAttendanceToFile(attendanceManager.getAllAttendanceRecords());
+                System.out.println("Data saved. Returning to main menu...");
                 break; 
             }
 
@@ -173,6 +179,9 @@ public class AttendanceManagerMenu {
                 newStatus = InputChecker.inputAttendanceStatus(sc);
                 System.out.println("OT: ");
                 ot = InputChecker.inputOT(sc);
+                if(newStatus==AttendanceStatus.ABSENT){
+                    ot=0;
+                }
                 break;
             } catch (NumberFormatException ne ) {
                 System.out.println("Invalid OT input.");

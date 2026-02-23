@@ -5,10 +5,10 @@ import java.time.LocalDate;
 
 public abstract class Employee {
     private final String employeeID;
-    private String EmployeeName;
+    private String employeeName;
     private EmployeeStatus status;
     private Department department;
-    private final LocalDate startDate;
+    private LocalDate startDate;
     private EmployeeType type;
     private String jobTitle;
     private double basicSalary;
@@ -16,23 +16,24 @@ public abstract class Employee {
     
     public Employee(String employeeID, String employeeName, EmployeeStatus status, Department department, LocalDate startDate, EmployeeType type, String jobTitle, double basicSalary) {
         this.employeeID = employeeID;
-        EmployeeName = employeeName;
+        this.employeeName = employeeName;
         this.status = status;
         this.department = department;
         this.startDate = startDate;
         this.type = type;
-        this.jobTitle = jobTitle.toUpperCase();
+        this.jobTitle = jobTitle == null ? null : jobTitle.toUpperCase();
         this.basicSalary = basicSalary;
     }
+    //construtor để đọc file
     //getter and setters
     public String getEmployeeID() {
         return employeeID;
     }
     public String getEmployeeName() {
-        return EmployeeName;
+        return employeeName;
     }
     public void setEmployeeName(String employeeName) {
-        EmployeeName = employeeName;
+        this.employeeName = employeeName;
     }
     public EmployeeStatus getStatus() {
         return status;
@@ -72,14 +73,14 @@ public abstract class Employee {
         DecimalFormat df = new DecimalFormat("#,###");
 
         return  "Employee ID: "+employeeID+"\n"
-                +"Full Name: "+EmployeeName+"\n"
+                +"Full Name: "+employeeName+"\n"
                 +"Department: "+department+"\n"
                 +"Job Title: "+jobTitle+"\n"
                 +"Type: "+type+"\n"
                 +"Date of Joining: "+startDate+"\n"
+                +"Status: "+status+"\n"
                 +"Basic Salary: "+df.format(basicSalary)+"\n";
     }
     
     public abstract double getOT_Salary();
-    public abstract String dataString();
 }

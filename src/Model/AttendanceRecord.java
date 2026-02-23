@@ -41,10 +41,8 @@ public class AttendanceRecord {
         return "AttendanceRecord [employeeID=" + employeeID + ", date=" + date + ", OT=" + OT + ", status=" + status
                 + "]";
     }
+
     
-    public String dataString(){
-        return employeeID+","+date+","+OT+","+status;
-    }
 
     //format: id,date,ot,status
 }

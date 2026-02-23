@@ -20,6 +20,15 @@ public class AttendanceManager {
         this.attendanceManager = new HashMap<>();
         this.employeeManager = employeeManager;
     }
+    public AttendanceManager(List<AttendanceRecord> records, EmployeeManager employeeManager) {
+        this.employeeManager = employeeManager;
+        this.attendanceManager = new HashMap<>();
+        for (AttendanceRecord record : records) {
+            if (record == null) continue; // bỏ qua null
+            String empID = record.getEmployeeID();
+            this.attendanceManager.computeIfAbsent(empID, k -> new ArrayList<>()).add(record);
+        }
+    }
     //getter and setters
     public Map<String, List<AttendanceRecord>> getAttendanceManager() {
         return attendanceManager;
@@ -138,6 +147,14 @@ public class AttendanceManager {
 
         return lowEmp;
 
+    }
+
+    public List<AttendanceRecord> getAllAttendanceRecords() {
+        List<AttendanceRecord> allRecords = new ArrayList<>();
+        for (List<AttendanceRecord> records : attendanceManager.values()) {
+            allRecords.addAll(records);
+        }
+        return allRecords;
     }
 
 

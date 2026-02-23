@@ -1,7 +1,6 @@
 package Model;
 
 import java.text.DecimalFormat;
-import java.time.Year;
 
 public class SalaryRecord {
     private String employeeID;
@@ -21,6 +20,17 @@ public class SalaryRecord {
         this.absentDay = absentDay;
         TotalSalary = calculateMonthSalary(emp.getBasicSalary(),emp.getOT_Salary());
     }
+    public SalaryRecord(String employeeID, int month, int year, int workingDay, int oT, int absentDay, double totalSalary) {
+        this.employeeID = employeeID;
+        this.month = month;
+        this.year = year;
+        this.workingDay = workingDay;
+        OT = oT;
+        this.absentDay = absentDay;
+        TotalSalary = totalSalary;
+    }
+
+
     //getter
     public String getEmployeeID() {
         return employeeID;
@@ -59,10 +69,7 @@ public class SalaryRecord {
     }
 
 
-    public String dataString(){
-         DecimalFormat df = new DecimalFormat("####");
-        return employeeID+","+month+","+","+year+","+workingDay+","+OT+","+","+absentDay+","+df.format(TotalSalary);
-    }
+
     //format ghi data: id,month,year,workingday,ot,absentday,xxxxxxx
     
 

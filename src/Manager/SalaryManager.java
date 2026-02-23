@@ -12,13 +12,19 @@ import Model.SalaryRecord;
 public class SalaryManager {
     private Map<String, List<SalaryRecord>> salaryManager;
     private AttendanceManager attendanceManager;
-    //đọc ghi
-    //----
-    //
     //constructor
     public SalaryManager( AttendanceManager attendanceManager) {
         this.attendanceManager = attendanceManager;
         this.salaryManager = new HashMap<>();
+    }
+
+    public SalaryManager(AttendanceManager attendanceManager, List<SalaryRecord> salaryRecords) {
+        this.attendanceManager = attendanceManager;
+        this.salaryManager = new HashMap<>();
+        for (SalaryRecord record : salaryRecords) {
+            if (record == null) continue; // bỏ qua null
+            salaryManager.computeIfAbsent(record.getEmployeeID(), k -> new ArrayList<>()).add(record);
+        }
     }
     //tính lương
     public boolean createMonthSalaryRecord(Employee emp, int month, int year){
@@ -74,5 +80,13 @@ public class SalaryManager {
         }
         return null;
 
+    }
+
+    public List<SalaryRecord> getAllSalaries() {
+        List<SalaryRecord> allSalaries = new ArrayList<>();
+        for (List<SalaryRecord> records : salaryManager.values()) {
+            allSalaries.addAll(records);
+        }
+        return allSalaries;
     }
 }

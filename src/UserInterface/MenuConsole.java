@@ -9,6 +9,9 @@ import Manager.AttendanceManager;
 import Manager.EmployeeManager;
 // import Manager.Report;
 import Manager.SalaryManager;
+import StorageData.AttendanceStorage;
+import StorageData.EmployeeStorage;
+import StorageData.SalaryStorage;
 
 public class MenuConsole {
     private EmployeeManager employeeManager;
@@ -24,19 +27,29 @@ public class MenuConsole {
     private SalaryMenu salaryMenu;
     private ReportMenu reportMenu;
 
-    //constructor
-    public MenuConsole() {
+
+    //constructor test
+    public MenuConsole(String employeeFileName, String attendanceFileName, String salaryFileName) {
+         //load employee data from file
         //map quản lý
         this.sc = new Scanner(System.in);
+        //load file khi mới khởi tạo. 
+
+        //load employee data from file
+        EmployeeStorage employeeStorage = new EmployeeStorage(employeeFileName);
+        this.employeeManager = new EmployeeManager(employeeStorage.loadEmployeesFromFile());
+        //load attendance data from file
+        AttendanceStorage attendanceStorage = new AttendanceStorage(attendanceFileName);
+        this.attendanceManager = new AttendanceManager(attendanceStorage.loadAttendanceFromFile(), this.employeeManager);
+        //load salary data from file
+        SalaryStorage salaryStorage = new SalaryStorage(salaryFileName);
+        this.salaryManager = new SalaryManager(attendanceManager, salaryStorage.loadSalariesFromFile());
+
         //đối tượng quản lý
-        this.employeeManager = new EmployeeManager();
-        this.attendanceManager = new AttendanceManager(employeeManager);
-        this.salaryManager = new SalaryManager(attendanceManager);
-        // this.report = new Report(employeeManager, attendanceManager, salaryManager);
         //menu
-        employeeMenu = new EmployeeMenu(employeeManager, sc);
-        attendanceManagerMenu = new AttendanceManagerMenu(attendanceManager, employeeManager, sc);
-        salaryMenu = new SalaryMenu(employeeManager,salaryManager, sc);
+        employeeMenu = new EmployeeMenu(employeeManager, sc, employeeFileName);
+        attendanceManagerMenu = new AttendanceManagerMenu(attendanceManager, employeeManager, sc, attendanceFileName);
+        salaryMenu = new SalaryMenu(employeeManager,salaryManager, sc, salaryFileName);
         this.reportMenu = new ReportMenu(employeeManager, attendanceManager, salaryManager, sc);
         this.menu = new HashMap<>();
         menu.put(1,() -> employeeMenu.run());
@@ -44,33 +57,8 @@ public class MenuConsole {
         menu.put(3,() -> salaryMenu.run());
         menu.put(4, () -> reportMenu.run());
     }
-    //construcor 2 cho test
-    public MenuConsole(EmployeeManager employeeManager, AttendanceManager attendanceManager, SalaryManager salaryManager) {
-        this.employeeManager = employeeManager;
-        this.attendanceManager = attendanceManager;
-        this.salaryManager = salaryManager;
-        this.sc = new Scanner(System.in);
-        //menu
-        this.employeeMenu = new EmployeeMenu(employeeManager, sc);
-        this.attendanceManagerMenu = new AttendanceManagerMenu(attendanceManager, employeeManager, sc);
-        this.salaryMenu = new SalaryMenu(employeeManager,salaryManager, sc);
-        this.reportMenu = new ReportMenu(employeeManager, attendanceManager, salaryManager, sc);
-        this.menu = new HashMap<>();
-        menu.put(1,() -> employeeMenu.run());
-        menu.put(2,() -> attendanceManagerMenu.run());
-        menu.put(3,() -> salaryMenu.run());
-        menu.put(4,() -> reportMenu.run());
-    }
-    //setter
-//    public void setAttendanceManager(AttendanceManager attendanceManager) {
-//        this.attendanceManager = attendanceManager;
-//    }
-//    public void setSalaryManager(SalaryManager salaryManager) {
-//        this.salaryManager = salaryManager;
-//    }
     //run
     public void run(){
-       
         while (true) {
              Display.showMainMenu();
             int Choose;

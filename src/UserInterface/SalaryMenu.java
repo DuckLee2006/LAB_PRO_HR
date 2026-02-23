@@ -8,18 +8,21 @@ import CommonUtility.Display;
 import Manager.EmployeeManager;
 import Manager.SalaryManager;
 import Model.SalaryRecord;
+import StorageData.SalaryStorage;
 
 public class SalaryMenu {
     private EmployeeManager employeeManager;
     private SalaryManager salaryManager;
     private Scanner sc;
     private Map<Integer, Runnable> menu;
+    private SalaryStorage salaryStorage;
 
       //constructor
-    public SalaryMenu(EmployeeManager employeeManager,SalaryManager salaryManager, Scanner sc) {
+    public SalaryMenu(EmployeeManager employeeManager,SalaryManager salaryManager, Scanner sc, String salaryFileName) {
         this.employeeManager = employeeManager;
         this.salaryManager = salaryManager;
         this.sc = sc;
+        this.salaryStorage = new SalaryStorage(salaryFileName);
         this.menu = new HashMap<>();
         menu.put(1,() -> calculateSalary());
         menu.put(2,() -> viewSalary());
@@ -39,6 +42,8 @@ public class SalaryMenu {
             }
 
             if (choose == 0) {
+                salaryStorage.saveSalariesToFile(salaryManager.getAllSalaries());
+                System.out.println("Data saved. Returning to main menu...");
                 break; 
             }
 

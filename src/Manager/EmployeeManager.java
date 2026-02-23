@@ -2,6 +2,7 @@ package Manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Model.Employee;
@@ -12,6 +13,13 @@ public class EmployeeManager {
     //constructor
     public EmployeeManager() {
         this.comp = new HashMap<>();;
+    }
+    public EmployeeManager(List<Employee> list){
+        comp = new HashMap<>();
+
+        for(Employee e : list){
+            comp.put(e.getEmployeeID(), e);
+        }
     }
     //getter and setter
 
