@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import BussinessRule.InactiveEmployee;
+import BussinessRule.RecordAlreadyExist;
+import BussinessRule.RecordDayBeforeStart;
 import CommonUtility.Display;
 import CommonUtility.InputChecker;
 import Manager.AttendanceManager;
@@ -102,9 +105,21 @@ public class AttendanceManagerMenu {
         AttendanceRecord attendanceRecord = new AttendanceRecord(empID, date, ot, status);
         System.out.println("[1] Save     [2] Cancel");
         int confirm = InputChecker.confirm(sc);
-        boolean check;
+        boolean check=false;
          if (confirm==1){
-            check = attendanceManager.addRecord(attendanceRecord);
+            try {
+                check = attendanceManager.addRecord(attendanceRecord);
+            } catch (RecordDayBeforeStart recordDayBeforeStart) {
+                System.out.println("Error: " + recordDayBeforeStart.getMessage());
+                return;
+            }catch (RecordAlreadyExist recordAlreadyExist) {
+                System.out.println("Error: " + recordAlreadyExist.getMessage());
+                return;
+            }catch (InactiveEmployee inactiveEmployee) {
+                System.out.println("Error: " + inactiveEmployee.getMessage());
+                return;
+            }
+            
         }else {
             return;
         }
@@ -112,7 +127,7 @@ public class AttendanceManagerMenu {
         if (check) {
             System.out.println("Attendance record has added successfully .");
         }else{
-            System.out.println("Attendance was exist.");
+            System.out.println("Attendance record was not added.");
         }
 
 

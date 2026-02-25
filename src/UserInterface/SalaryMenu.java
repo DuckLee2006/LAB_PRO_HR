@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import BussinessRule.CannotCreateSalaryRecord;
+import BussinessRule.InactiveEmployee;
 import CommonUtility.Display;
 import Manager.EmployeeManager;
 import Manager.SalaryManager;
@@ -88,7 +90,13 @@ public class SalaryMenu {
             }
         }
          for (Employee employee : employeeManager.getAllEmployee()) {
-            salaryManager.createMonthSalaryRecord(employee, month, year);
+            try {
+                salaryManager.createMonthSalaryRecord(employee, month, year);
+            } catch (InactiveEmployee ie) {
+                System.out.println("Error: " + ie.getMessage());
+            }catch (CannotCreateSalaryRecord ccsr) {
+                System.out.println("Error: " + ccsr.getMessage());
+            }
         }
 
         for (SalaryRecord salaryRecord : salaryManager.getAllSalaries()) {

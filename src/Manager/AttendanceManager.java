@@ -8,9 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BussinessRule.InactiveEmployee;
+import BussinessRule.RecordAlreadyExist;
+import BussinessRule.RecordDayBeforeStart;
 import Model.AttendanceRecord;
 import Model.AttendanceStatus;
 import Model.Employee;
+import Model.EmployeeStatus;
 
 public class AttendanceManager {
     private Map<String, List<AttendanceRecord>> attendanceManager;
@@ -46,23 +50,32 @@ public class AttendanceManager {
         this.employeeManager = employeeManager;
     }
     //add attendance record
-    public boolean addRecord(AttendanceRecord record) {
+    public boolean addRecord(AttendanceRecord record) throws RecordDayBeforeStart, RecordAlreadyExist, InactiveEmployee{
         String empID = record.getEmployeeID();
 
         // 1. kiểm tra id tồn tại
         if (employeeManager.findEmployeeByID(empID)==null) {
-            return false;
+            throw new InactiveEmployee("Employee does not exist.");
         }
-
+        // 2. kiểm tra nhân viên có đang hoạt động không
+        if ((employeeManager.findEmployeeByID(empID).getStatus()!=EmployeeStatus.ACTIVE)) {
+             throw new InactiveEmployee("Employee is not active.");
+         }
         // 2. tạo danh sách nếu chưa có.
         List<AttendanceRecord> empRecords = attendanceManager.computeIfAbsent(empID, k -> new ArrayList<>());
 
         // 3. Check trùng ngày
         for (AttendanceRecord r : empRecords) {
             if (r.getDate().equals(record.getDate())) {
-                return false;
+               throw new RecordAlreadyExist("Record aready exist.");
             }
         }
+        //4 check ngày hoạt động
+        if(!record.getDate().isAfter(employeeManager.findEmployeeByID(empID).getStartDate())){
+             throw new RecordDayBeforeStart("Invalid Day: Record day must be after employee's start date.");
+        }
+
+        //5 cechk nếu trạng thái là absent thì OT phải bằng 0
         if(record.getStatus()==AttendanceStatus.ABSENT){
             record.setOT(0);
         }

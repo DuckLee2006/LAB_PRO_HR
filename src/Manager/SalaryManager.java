@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import BussinessRule.CannotCreateSalaryRecord;
+import BussinessRule.InactiveEmployee;
 import Model.Employee;
 import Model.EmployeeStatus;
 import Model.SalaryRecord;
@@ -27,10 +29,9 @@ public class SalaryManager {
         }
     }
     //tính lương
-    public boolean createMonthSalaryRecord(Employee emp, int month, int year){
+    public boolean createMonthSalaryRecord(Employee emp, int month, int year) throws InactiveEmployee, CannotCreateSalaryRecord{
         if (emp.getStatus()!=EmployeeStatus.ACTIVE) {
-            System.out.println("Employee with ID: "+emp.getEmployeeID()+" is not active!");
-            return false;
+            throw new InactiveEmployee("Employee with ID: "+emp.getEmployeeID()+" is not active!");
         }
 
         if(getSalaryByMonth(emp.getEmployeeID(), month, year)==null){
@@ -38,8 +39,7 @@ public class SalaryManager {
             int working = attendanceManager.getWorkingDay(emp.getEmployeeID(), month, year);
             int absent = attendanceManager.getAbsentDay(emp.getEmployeeID(), month, year);
             if (working==0&&absent==0) {
-                System.out.println("ID: "+emp.getEmployeeID()+" have no attendance record for this month. Salary record can't be created.");
-                return false;
+                throw new CannotCreateSalaryRecord("ID: "+emp.getEmployeeID()+" have no attendance record for this month. Salary record can't be created.");
             }
             int ot = attendanceManager.getOTByMonth(emp.getEmployeeID(), month, year);
             SalaryRecord record = new SalaryRecord(emp,month,year,working,ot,absent);

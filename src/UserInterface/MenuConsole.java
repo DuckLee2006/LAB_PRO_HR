@@ -28,7 +28,7 @@ public class MenuConsole {
     private ReportMenu reportMenu;
 
 
-    //constructor test
+    //constructor
     public MenuConsole(String employeeFileName, String attendanceFileName, String salaryFileName) {
          //load employee data from file
         //map quản lý
@@ -56,6 +56,8 @@ public class MenuConsole {
         menu.put(2,() -> attendanceManagerMenu.run());
         menu.put(3,() -> salaryMenu.run());
         menu.put(4, () -> reportMenu.run());
+
+
     }
     //run
     public void run(){

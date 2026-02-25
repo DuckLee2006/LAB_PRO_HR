@@ -182,7 +182,6 @@ public class EmployeeMenu {
                     break;
                 }
             } catch (Exception e) {
-                // TODO: handle exception
                 System.out.println("yo bro.. enter again pls!");
             }
          } 

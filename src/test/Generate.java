@@ -67,9 +67,9 @@ public final class Generate {
         Random random = new Random();
         for (int i = 1; i <=26; i++) {
             
-            int status = random.nextInt(10);
+            int status = random.nextInt(15);
             int ot=0;
-            if (1<=status&&status<=5) {
+            if (1<=status&&status<=7) {
                 ot = random.nextInt(5);
             }
             if (status==0) {
@@ -107,7 +107,7 @@ public final class Generate {
         }
 
         // ===== GENERATE NEW ATTENDANCE FOR MONTH =====
-        int month = 1;
+        int month = 4;
         int year = 2026;
 
         for (Employee employee : currentEmployees) {

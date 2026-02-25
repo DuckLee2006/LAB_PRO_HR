@@ -70,10 +70,12 @@ public class ReportMenu {
         }
         
          List<Employee> lowAttendancêEmployees = attendanceManager.isLowAttendance(month, year);
-
+        int num =0;
          System.out.println("---------------------LOW ATTENDANCE REPORT--------------------");
          for (Employee employee : lowAttendancêEmployees) {
-            System.out.printf("%-12s | %-34s | %-2d absents days\n",employee.getEmployeeID(), employee.getEmployeeName(),attendanceManager.getAbsentDay(employee.getEmployeeID(), month, year));
+            num++;
+            System.out.printf("%-3d | %-12s | %-34s | %-2d absents days\n",num,employee.getEmployeeID(), employee.getEmployeeName(),attendanceManager.getAbsentDay(employee.getEmployeeID(), month, year));
+        
          }
          System.out.println("--------------------------------------------------------------");
          System.out.println("Press ENTER to return...");

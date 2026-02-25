@@ -103,7 +103,6 @@ public class AttendanceStorage {
         } catch (IOException e) {
             System.out.println("Error loading attendance data: " + e.getMessage());
         }
-
         return records;
     }
 
