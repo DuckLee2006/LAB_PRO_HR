@@ -54,16 +54,12 @@ public final class InputChecker {
         }
 
         input = input.trim().toUpperCase();
-
-        switch (input) {
-            case "HR": return Department.HR;
-            case "IT": return Department.IT;
-            case "ACCOUNTING": return Department.ACCOUNTING;
-            case "SALES": return Department.SALES;
-            case "MARKETING": return Department.MARKETING;
-            default:
-                throw new IllegalArgumentException("INVALID DEPARTMENT");
+       try {
+            return Department.valueOf(input);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("INVALID DEPARTMENT");
         }
+
     }
     //date
     public static boolean isValidDate(String input) {
@@ -90,14 +86,10 @@ public final class InputChecker {
             throw new IllegalArgumentException("Input is null");
         }
         input=input.trim().toUpperCase();
-        switch (input) {
-            case "ABSENT":
-                return AttendanceStatus.ABSENT;
-            case "PRESENT":
-                return AttendanceStatus.PRESENT;
-        
-            default:
-                throw new IllegalArgumentException("INVALID STATUS");
+         try {
+            return AttendanceStatus.valueOf(input);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("INVALID ATTENDANCE STATUS");
         }
 
 
@@ -108,15 +100,12 @@ public final class InputChecker {
             throw new IllegalArgumentException("Input is null");
         }
         input=input.trim().toUpperCase();
-        switch (input) {
-            case "ACTIVE":
-                return EmployeeStatus.ACTIVE;
-            case "RETIRED":
-                return EmployeeStatus.RETIRED;
-        
-            default:
-                throw new IllegalArgumentException("INVALID STATUS");
+         try {
+            return EmployeeStatus.valueOf(input);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("INVALID EMPLOYEE STATUS");
         }
+
 
     }
     //EMPLOYEETYPE
@@ -124,12 +113,11 @@ public final class InputChecker {
         if (input == null) {
             throw new IllegalArgumentException("Input is null");
         }
-        input = input.trim().toUpperCase();
-        switch (input) {
-            case "FULL-TIME": return EmployeeType.FULL_TIME;
-            case "PART-TIME": return EmployeeType.PART_TIME;
-            default:
-                throw new IllegalArgumentException("INVALID DEPARTMENT");
+        input = input.trim().toUpperCase().replaceAll("[^A-Z0-9]", "_");
+        try {
+            return EmployeeType.valueOf(input);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("INVALID EMPLOYEE TYPE");
         }
     }
     //confirm
@@ -148,6 +136,7 @@ public final class InputChecker {
         if (confirm==1){
             return 1;
         }else return 2;
+
     }
 
     public static boolean isValidOT(int ot){
@@ -204,7 +193,7 @@ public final class InputChecker {
                 department = InputChecker.departmentCheck(sc.nextLine());
                 break;
             } catch (IllegalArgumentException e) {
-                System.out.println("Invalid department.");
+                System.out.println(e.getMessage());
             }catch (Exception e){
                 System.out.println("uhhh... anything wrong here.");
             }
