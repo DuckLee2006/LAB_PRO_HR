@@ -13,9 +13,9 @@ import Model.Department;
 import Model.EmployeeStatus;
 import Model.EmployeeType;
 
-public final class InputChecker {
+public final class InputAndChecker {
 
-    private InputChecker(){
+    private InputAndChecker(){
 
     }
     //id
@@ -171,8 +171,8 @@ public final class InputChecker {
         while (true) {
             try {
             name = sc.nextLine();
-            if (InputChecker.nameCheck(name)) {
-                name=InputChecker.nameTransform(name);
+            if (InputAndChecker.nameCheck(name)) {
+                name=InputAndChecker.nameTransform(name);
                 break;
             }else{
                 System.out.println("Invalid name, enter again pls!");
@@ -190,7 +190,7 @@ public final class InputChecker {
         while (true) {
             System.out.println("Department (HR,IT, ACCOUNTING, SALES, MARKETING): ");
             try {
-                department = InputChecker.departmentCheck(sc.nextLine());
+                department = InputAndChecker.departmentCheck(sc.nextLine());
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
@@ -207,7 +207,7 @@ public final class InputChecker {
         while (true) {
             try{
                 System.out.println("Type(Full-time, Part-time):");
-                type = InputChecker.employeeTypeCheck(sc.nextLine());
+                type = InputAndChecker.employeeTypeCheck(sc.nextLine());
                 break;
             }catch(IllegalArgumentException ie){
                 System.out.println("enter again pls");
@@ -222,7 +222,7 @@ public final class InputChecker {
             try {
                 System.out.print("(dd/mm/yyyy)");
                 String date = sc.nextLine();
-                if(InputChecker.isValidDate(date)){
+                if(InputAndChecker.isValidDate(date)){
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                     Date = LocalDate.parse(date,formatter);
                     break;
@@ -238,7 +238,7 @@ public final class InputChecker {
         EmployeeStatus status;
         while (true) {
             try {
-                status = InputChecker.employeeStatusCheck(sc.nextLine());
+                status = InputAndChecker.employeeStatusCheck(sc.nextLine());
                 break;
             } catch (IllegalArgumentException ie ) {
                 System.out.println("ACTIVE OR RETIRED ONLY!!");
@@ -270,7 +270,7 @@ public final class InputChecker {
         AttendanceStatus status;
         while (true) {
             try {
-                status = InputChecker.attendanceStatusCheck(sc.nextLine());
+                status = InputAndChecker.attendanceStatusCheck(sc.nextLine());
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid input. Just PRESENT OR ABSENT PLS!");

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 import CommonUtility.Display;
 import CommonUtility.IdGenerator;
-import CommonUtility.InputChecker;
+import CommonUtility.InputAndChecker;
 import Manager.EmployeeManager;
 import Model.Department;
 import Model.Employee;
@@ -77,18 +77,18 @@ public class EmployeeMenu {
 
     public void add(){
         System.out.println("Full Name: ");
-        String name = InputChecker.inputName(sc);
-        Department department = InputChecker.inputDepartment(sc);
+        String name = InputAndChecker.inputName(sc);
+        Department department = InputAndChecker.inputDepartment(sc);
         System.out.println("Job title: ");
         String job = sc.nextLine();
         System.out.println("Employee Type: ");
-        EmployeeType type= InputChecker.inputEmployeeType(sc);
+        EmployeeType type= InputAndChecker.inputEmployeeType(sc);
         System.out.println("Start Date: ");
-        LocalDate starDate= InputChecker.inputDate(sc);
+        LocalDate starDate= InputAndChecker.inputDate(sc);
         System.out.println("Status.");
-        EmployeeStatus status= InputChecker.inputEmployeeStatus(sc);
+        EmployeeStatus status= InputAndChecker.inputEmployeeStatus(sc);
         System.out.println("basic Salary: ");
-        double basicSalary = InputChecker.inputSalary(sc);
+        double basicSalary = InputAndChecker.inputSalary(sc);
         String id;
         while (true) {
             id = IdGenerator.generateEmployeeId(type, department);
@@ -110,7 +110,7 @@ public class EmployeeMenu {
         System.out.println("-----ADD EMPLOYEE-----");
         System.out.println(emp.toString());
         System.out.println("[1] Save     [2] Cancel");
-        int confirm =InputChecker.confirm(sc);
+        int confirm =InputAndChecker.confirm(sc);
 
         if (confirm==1){
             employeeManager.addEmployee(emp);
@@ -140,18 +140,18 @@ public class EmployeeMenu {
         System.out.println("Full Name: ");
         String name;
         while (true) {
-            name = InputChecker.inputName(sc);
+            name = InputAndChecker.inputName(sc);
             if (name.matches(blank)) {
                 name= oldEmp.getEmployeeName();
                 break;
             }
-            if (InputChecker.nameCheck(name)) {
+            if (InputAndChecker.nameCheck(name)) {
                 break;
             }else{
                 System.out.println("Invalid name, enter again pls!");
             }
         }
-        name = InputChecker.nameTransform(name);
+        name = InputAndChecker.nameTransform(name);
         Department department;
         while (true) {
             System.out.println("Department (HR,IT, ACCOUNTING, SALES, MARKETING): ");
@@ -161,7 +161,7 @@ public class EmployeeMenu {
                 department = oldEmp.getDepartment();
                 break;
                 }
-                department = InputChecker.departmentCheck(deptStr);
+                department = InputAndChecker.departmentCheck(deptStr);
                 break;
             } catch (IllegalArgumentException e) {
                 System.out.println("Invalid department.");
@@ -195,7 +195,7 @@ public class EmployeeMenu {
                 type = oldEmp.getType();
                 break;
                 }
-                type = InputChecker.employeeTypeCheck(typeStr);
+                type = InputAndChecker.employeeTypeCheck(typeStr);
                 break;
             }catch(IllegalArgumentException ie){
                 System.out.println("enter again pls");
@@ -210,7 +210,7 @@ public class EmployeeMenu {
                     status = oldEmp.getStatus();
                     break;
                 }
-                status = InputChecker.employeeStatusCheck(statusStr);
+                status = InputAndChecker.employeeStatusCheck(statusStr);
                 break;
             } catch (IllegalArgumentException ie ) {
                 System.out.println("ACTIVE OR RETIRED ONLY!!");
@@ -252,7 +252,7 @@ public class EmployeeMenu {
         System.out.println(newEmp.toString());
         System.out.println("[1] Update     [2] Cancel");    
 
-        int confirm =InputChecker.confirm(sc);
+        int confirm =InputAndChecker.confirm(sc);
         if (confirm==1){
             employeeManager.updateEmployee(newEmp);
             System.out.println("Employee update successfully.");
@@ -270,7 +270,7 @@ public class EmployeeMenu {
         System.out.println("The employee with ID: "+id+" will be deleted.");
         System.out.println("[1]YES    [2]NO");
 
-        int confirm =InputChecker.confirm(sc);
+        int confirm =InputAndChecker.confirm(sc);
 
         if (confirm==1){
             employeeManager.deleteEmployee(id);

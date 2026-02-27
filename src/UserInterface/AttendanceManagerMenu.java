@@ -11,7 +11,7 @@ import BussinessRule.InactiveEmployee;
 import BussinessRule.RecordAlreadyExist;
 import BussinessRule.RecordDayBeforeStart;
 import CommonUtility.Display;
-import CommonUtility.InputChecker;
+import CommonUtility.InputAndChecker;
 import Manager.AttendanceManager;
 import Manager.EmployeeManager;
 import Model.AttendanceRecord;
@@ -95,16 +95,16 @@ public class AttendanceManagerMenu {
             break;
         }
         System.out.println("Date of record(dd/mm/yyyy): ");
-        LocalDate date = InputChecker.inputDate(sc);
+        LocalDate date = InputAndChecker.inputDate(sc);
         System.out.println("Status: ");
-        AttendanceStatus status = InputChecker.inputAttendanceStatus(sc);
+        AttendanceStatus status = InputAndChecker.inputAttendanceStatus(sc);
         System.out.println("Over Time: ");
-        int ot = InputChecker.inputOT(sc);
+        int ot = InputAndChecker.inputOT(sc);
       
 
         AttendanceRecord attendanceRecord = new AttendanceRecord(empID, date, ot, status);
         System.out.println("[1] Save     [2] Cancel");
-        int confirm = InputChecker.confirm(sc);
+        int confirm = InputAndChecker.confirm(sc);
         boolean check=false;
          if (confirm==1){
             try {
@@ -185,7 +185,7 @@ public class AttendanceManagerMenu {
             return;
         }
         System.out.println("Date: ");
-        LocalDate date = InputChecker.inputDate(sc);
+        LocalDate date = InputAndChecker.inputDate(sc);
 
         AttendanceRecord oldRecord = attendanceManager.find(id, date);
         if(oldRecord==null){
@@ -198,9 +198,9 @@ public class AttendanceManagerMenu {
         while (true) {
             try {
                 System.out.println("New Status: ");
-                newStatus = InputChecker.inputAttendanceStatus(sc);
+                newStatus = InputAndChecker.inputAttendanceStatus(sc);
                 System.out.println("OT: ");
-                ot = InputChecker.inputOT(sc);
+                ot = InputAndChecker.inputOT(sc);
                 if(newStatus==AttendanceStatus.ABSENT){
                     ot=0;
                 }
@@ -219,7 +219,7 @@ public class AttendanceManagerMenu {
         System.out.println("New Status: "+ newStatus+"| new OT: "+ot);
         System.out.println("[1] Update     [2] Cancel");    
 
-        int confirm =InputChecker.confirm(sc);
+        int confirm =InputAndChecker.confirm(sc);
         if (confirm==1){
             oldRecord.setStatus(newStatus);
             oldRecord.setOT(ot);
